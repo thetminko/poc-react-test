@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import logo from './logo.svg';
 import { AppToolBar, Drawer, MainContentContainer } from './components/common';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { BrowserRouter, Route, Switch, Link as RouterLink } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { RouteConfig } from './constants/Config';
 

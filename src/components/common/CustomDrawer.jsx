@@ -21,7 +21,6 @@ const CustomDrawer = props => {
   const location = useLocation();
   const history = useHistory();
   const { drawer, drawerPaper, toolbar } = useStyles();
-  console.log(location);
   return (
     <Drawer open={props.isDrawerOpen}
       className={drawer}
@@ -38,7 +37,7 @@ const CustomDrawer = props => {
               <ListItem button key={route.key} onClick={() => {
                 history.push(route.path);
                 props.closeDrawer();
-              }} selected={location.pathName === route.path}
+              }} selected={location.pathname === route.path}
               >
                 {
                   route.icon && (
