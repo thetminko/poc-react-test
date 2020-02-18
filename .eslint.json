@@ -1,0 +1,93 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:security/recommended"
+  ],
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "no-console": "off",
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-double"
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 150
+      }
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ],
+    "padded-blocks": [
+      "error",
+      {
+        "classes": "always",
+        "blocks": "never",
+        "switches": "never"
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "eqeqeq": [
+      "error",
+      "smart"
+    ],
+    "no-throw-literal": "error",
+    "camelcase": "error",
+    "prefer-const": "error",
+    "no-multi-spaces": "error",
+    "no-return-await": "error",
+    "curly": "error",
+    "prefer-template": "error",
+    "block-spacing": "error",
+    "no-case-declarations": "off",
+    "no-trailing-spaces": "error",
+    "eol-last": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "external",
+          "internal"
+        ],
+        "newlines-between": "never"
+      }
+    ],
+    "react/prop-types": "off",
+    "react/no-string-refs": "off",
+    "security/detect-non-literal-fs-filename": "off",
+    "security/detect-object-injection": "off"
+  }
+}

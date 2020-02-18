@@ -66,3 +66,20 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+### Init
+```bash
+npm i eslint
+npm i --save-dev babel-eslint
+npm i --save-dev eslint-plugin-import eslint-plugin-react eslint-plugin-security
+npm install react-router-dom
+npm install @material-ui/core
+npm install @material-ui/icons
+```
+
+```html
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <!-- Icons to support Material Design -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+```
