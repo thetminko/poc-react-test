@@ -29,7 +29,7 @@ class FlightListing extends React.Component {
       <>
         <Paper>
           <Link className="link" to={{
-            pathname: '/modal/add',
+            pathname: '/flight/add',
             state: { background: this.props.location }
           }}>
             Home

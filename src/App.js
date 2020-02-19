@@ -49,7 +49,7 @@ function RouteComponent() {
         <Route exact path="/" children={<FlightListing />} />
       </Switch>
 
-      {background && <Route path="/modal/add" children={<AddFlightFormModal />} />}
+      {background && <Route path="/flight/add" children={<AddFlightFormModal />} />}
     </div>
   );
 }
