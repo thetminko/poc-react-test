@@ -15,7 +15,6 @@ class FlightListing extends React.Component {
   componentDidMount() {
     // Currently, just fetch all flights
     this.props.fetchFlights(FlightType.ALL);
-    console.log('asdfas', this.props.location);
   }
 
   componentDidUpdate(prevProps, prevState) {

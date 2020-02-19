@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Grid, Button, Divider, Modal, CircularProgress } from '@material-ui/core';
+import {
+  TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel,
+  Radio, Typography, Grid, Button, Divider, Modal, CircularProgress
+} from '@material-ui/core';
 import { FlightType, DateTimeFormat, Label, AsyncStatus } from '../../constants';
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import moment from 'moment';
@@ -176,7 +179,9 @@ const AddFlightForm = props => {
   };
 
   useEffect(() => {
-    onReset();
+    if (props.addStatus === 'SUCCESS') {
+      onReset();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.addStatus]);
 
