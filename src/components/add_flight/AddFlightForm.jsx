@@ -28,6 +28,9 @@ const styles = makeStyles(theme => ({
   },
   buttons: {
     marginRight: theme.spacing(1)
+  },
+  pullToRight: {
+    float: 'right'
   }
 }));
 
@@ -38,7 +41,7 @@ const DEPARTURE_REQUIRED = 'Please enter departure city';
 const ARRIVAL_REQUIRED = 'Please enter arrival city';
 
 const AddFlightForm = props => {
-  const { root, flightTypeControl, flightTypeLegend, formNote, divider, buttons } = styles();
+  const { root, flightTypeControl, flightTypeLegend, formNote, divider, buttons, pullToRight } = styles();
 
   const history = useHistory();
 
@@ -233,7 +236,7 @@ const AddFlightForm = props => {
       <Button variant="outlined" color="primary" size="medium" className={buttons} onClick={onBackToListing}>
         Back to Listing
       </Button>
-      <Button variant="outlined" color="secondary" size="medium" className={buttons} onClick={onReset}>
+      <Button variant="outlined" color="secondary" size="medium" className={[buttons, pullToRight]} onClick={onReset}>
         Reset All
       </Button>
     </div>
