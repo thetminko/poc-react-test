@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Grid, Button, Divider } from '@material-ui/core';
-import { FlightType, DateTimeFormat, RouteConfig } from '../../constants';
+import { FlightType, DateTimeFormat } from '../../constants';
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
@@ -31,11 +31,13 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-const AddFlightForm = props => {
-  const DEPARTURE = 'departure';
-  const ARRIVAL = 'arrival';
-  const UNSAVED_CHANGES = 'You unsaved changes will be lost.r Are you sure you want to go to listing page?';
+const DEPARTURE = 'departure';
+const ARRIVAL = 'arrival';
+const UNSAVED_CHANGES = 'You unsaved changes will be lost.r Are you sure you want to go to listing page?';
+const DEPARTURE_REQUIRED = 'Please enter departure city';
+const ARRIVAL_REQUIRED = 'Please enter arrival city';
 
+const AddFlightForm = props => {
   const { root, flightTypeControl, flightTypeLegend, formNote, divider, buttons } = styles();
 
   const history = useHistory();
@@ -50,7 +52,7 @@ const AddFlightForm = props => {
 
   const initialState = {
     data: {
-      isEdited: false, // detect if use change some data
+      isEdited: false,
       departure: '',
       arrival: '',
       departureDateTime: initialDepartureTime,
@@ -58,30 +60,34 @@ const AddFlightForm = props => {
       flightType: FlightType.CHEAP
     },
     error: {
-
+      departure: '',
+      arrival: '',
+      departureDateTime: '',
+      arrivalDateTime: ''
     }
   };
 
   const [data, setData] = useState(initialState.data);
-
   const [error, setError] = useState(initialState.error);
 
   const setDataChanges = (data) => setData({ ...data, isEdited: true });
 
-  const onDestinationOrArrivalChange = (e, type) => {
+  const onDepartureOrArrivalChange = (e, type) => {
     data[type] = e.target.value;
-    setDataChanges(data);
+    setDataChanges({ ...data });
   };
 
   const onFlightTypeChange = (event) => {
     data.flightType = event.target.value;
-    setDataChanges(data);
+    setDataChanges({ ...data });
   };
 
   const onDateTimePickerChange = (date, value, travelType) => {
     if (travelType === DEPARTURE) {
       data.departureDateTime = date;
-      data.arrivalDateTime = calculateMinimumArrivalTime(date);
+      if (date.isValid()) {
+        data.arrivalDateTime = calculateMinimumArrivalTime(date);
+      }
     } else {
       data.arrivalDateTime = date;
     }
@@ -90,7 +96,36 @@ const AddFlightForm = props => {
   };
 
   const onAddFlight = () => {
+    const isValid = validateBeforeAdd();
+    if (isValid) {
+      const { departure, arrival, departureDateTime, arrivalDateTime } = data;
+      props.addFlight({ departure, arrival, departureDateTime, arrivalDateTime });
+    }
+  };
 
+  const validateBeforeAdd = () => {
+    const { departure, arrival, flightType } = data;
+    if (departure && arrival && !error.departureDateTime && !error.arrivalDateTime && flightType) {
+      return true;
+    }
+    if (!departure) {
+      error.departure = DEPARTURE_REQUIRED;
+    }
+    if (!arrival) {
+      error.arrival = ARRIVAL_REQUIRED;
+    }
+
+    setError({ ...error });
+    return false;
+  };
+
+  const setDateTimePickerError = (val, type) => {
+    if (type === DEPARTURE) {
+      error.departureDateTime = val;
+    } else {
+      error.arrivalDateTime = val;
+    }
+    setError(error);
   };
 
   const onBackToListing = () => {
@@ -103,6 +138,13 @@ const AddFlightForm = props => {
     history.push('/');
   };
 
+  const onReset = () => {
+    const data = { ...initialState.data };
+    setData({ ...data });
+    error.isEdited = false;
+    setError({ ...initialState.error });
+  };
+
   return (
     <div className={root}>
       <Typography variant="body2" className={formNote}>
@@ -111,18 +153,20 @@ const AddFlightForm = props => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6}>
           <TextField
-            id="addflight-form-destination"
-            label="Destination"
+            autoFocus
+            id="addflight-form-departure"
+            label="Departure"
             placeholder="E.g. Singapore"
             style={{ marginTop: 8 }}
-            helperText={error.destination}
+            helperText={error.departure}
             fullWidth
             margin="normal"
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={onDestinationOrArrivalChange}
-            error={!!error.destination}
+            value={data.departure}
+            onChange={e => onDepartureOrArrivalChange(e, DEPARTURE)}
+            error={error.departure !== ''}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
@@ -135,7 +179,7 @@ const AddFlightForm = props => {
             minDate={minDepartureTime}
             strictCompareDates={true}
             onChange={(data, value) => onDateTimePickerChange(data, value, DEPARTURE)}
-            onError={console.log}
+            onError={(val, date) => setDateTimePickerError(val, DEPARTURE)}
             disablePast
             format={DateTimeFormat.display}
             minDateMessage={'Departure time should be at least 5 hours later from now'}
@@ -153,8 +197,9 @@ const AddFlightForm = props => {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={onDestinationOrArrivalChange}
-            error={!!error.arrival}
+            value={data.arrival}
+            onChange={e => onDepartureOrArrivalChange(e, ARRIVAL)}
+            error={error.arrival !== ''}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
@@ -167,7 +212,7 @@ const AddFlightForm = props => {
             value={data.arrivalDateTime}
             onChange={(data, value) => onDateTimePickerChange(data, value, ARRIVAL)}
             strictCompareDates={true}
-            onError={console.log}
+            onError={(val, date) => setDateTimePickerError(val, ARRIVAL)}
             disablePast
             format={DateTimeFormat.display}
             minDateMessage={'Arrival time should be after departure time'}
@@ -182,11 +227,14 @@ const AddFlightForm = props => {
         </FormControl>
       </Grid>
       <Divider className={divider} />
-      <Button variant="contained" color="primary" size="medium" className={buttons}>
+      <Button variant="contained" color="primary" size="medium" className={buttons} onClick={onAddFlight}>
         Add Flight
       </Button>
       <Button variant="outlined" color="primary" size="medium" className={buttons} onClick={onBackToListing}>
         Back to Listing
+      </Button>
+      <Button variant="outlined" color="secondary" size="medium" className={buttons} onClick={onReset}>
+        Reset All
       </Button>
     </div>
   );
