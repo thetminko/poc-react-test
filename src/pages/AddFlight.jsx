@@ -3,7 +3,7 @@ import { FlightAction } from '../redux/action_creators';
 import { Paper, Container } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { PageHeader } from '../components/common';
-import { AddFlightForm } from '../components/common/add_flight';
+import { AddFlightForm } from '../components/add_flight';
 
 class AddFlight extends Component {
   render() {
