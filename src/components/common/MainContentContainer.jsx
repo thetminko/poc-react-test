@@ -21,4 +21,4 @@ const MainContentContainer = props => {
   );
 };
 
-export default MainContentContainer;;
+export default MainContentContainer;

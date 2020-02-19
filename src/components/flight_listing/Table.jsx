@@ -32,4 +32,4 @@ const CustomTable = props => {
   );
 };
 
-export default CustomTable;;
+export default CustomTable;
