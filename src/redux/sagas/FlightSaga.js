@@ -1,7 +1,6 @@
-import { takeLeading, put } from 'redux-saga/effects';
+import { takeLeading, put, delay } from 'redux-saga/effects';
 import { ActionType } from '../../constants';
 import { FlightAction } from '../action_creators';
-
 
 const data = [{
   "departure": "Ankara", "arrival": "Antalya", "departureDateTime": 1561627856.000000000,
@@ -42,6 +41,13 @@ export function* fetchFlights(action) {
   }
 }
 
+// to replicate async request
+export function* addFlight(action) {
+  yield delay(1000);
+  yield put(FlightAction.onAddFlightSuccess(action.payload.data));
+}
+
 export default function* watchFlightSaga() {
   yield takeLeading(ActionType.FETCH_FLIGHTS, fetchFlights);
+  yield takeLeading(ActionType.ADD_FLIGHT, addFlight);
 }

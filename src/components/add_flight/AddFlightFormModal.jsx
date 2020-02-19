@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Grid, Button, Divider, Modal } from '@material-ui/core';
-import { FlightType, DateTimeFormat, Label } from '../../constants';
+import React, { useState, useEffect } from 'react';
+import { TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Grid, Button, Divider, Modal, CircularProgress } from '@material-ui/core';
+import { FlightType, DateTimeFormat, Label, AsyncStatus } from '../../constants';
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import moment from 'moment';
 import clsx from 'clsx';
@@ -54,12 +54,20 @@ const styles = makeStyles(theme => ({
   },
   pullToRight: {
     float: 'right'
+  },
+  loadingButton: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
   }
 }));
 
 const AddFlightForm = props => {
   const { DEPARTURE, ARRIVAL, DEPARTURE_REQUIRED, ARRIVAL_REQUIRED, UNSAVED_CHANGES } = Label;
-  const { root, container, flightTypeControl, flightTypeLegend, formNote, divider, buttons, pullToRight, modalBackdrop } = styles();
+  const { root, container, flightTypeControl, flightTypeLegend, formNote, divider,
+    buttons, pullToRight, modalBackdrop, loadingButton } = styles();
 
   const history = useHistory();
 
@@ -167,6 +175,11 @@ const AddFlightForm = props => {
     setError({ ...initialState.error });
   };
 
+  useEffect(() => {
+    onReset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.addStatus]);
+
   return (
     <div className={modalBackdrop}>
       <Modal open className={root}>
@@ -252,8 +265,8 @@ const AddFlightForm = props => {
             </FormControl>
           </Grid>
           <Divider className={divider} />
-          <Button variant="contained" color="primary" size="medium" className={buttons} onClick={onAddFlight}>
-            Add Flight
+          <Button variant="contained" color="primary" size="medium" className={buttons} onClick={onAddFlight} disabled={props.loading}>
+            Add Flight {props.loading && <CircularProgress size={24} className={loadingButton} />}
           </Button>
           <Button variant="outlined" color="primary" size="medium" className={buttons} onClick={onBackToListing}>
             Back to Listing
@@ -267,8 +280,13 @@ const AddFlightForm = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  loading: state.flights.addFlightStatus === AsyncStatus.IN_PROGRESS,
+  addStatus: state.flights.addFlightStatus
+});
+
 const mapDispatchToProps = {
   addFlight: FlightAction.addFlight
 };
 
-export default connect(null, mapDispatchToProps)(AddFlightForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddFlightForm);
