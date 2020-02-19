@@ -3,6 +3,7 @@ import { TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlL
 import { FlightType, DateTimeFormat } from '../../constants';
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import moment from 'moment';
+import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 
 const styles = makeStyles(theme => ({
@@ -236,10 +237,10 @@ const AddFlightForm = props => {
       <Button variant="outlined" color="primary" size="medium" className={buttons} onClick={onBackToListing}>
         Back to Listing
       </Button>
-      <Button variant="outlined" color="secondary" size="medium" className={[buttons, pullToRight]} onClick={onReset}>
+      <Button variant="outlined" color="secondary" size="medium" className={clsx(buttons, pullToRight)} onClick={onReset}>
         Reset All
       </Button>
-    </div>
+    </div >
   );
 };
 

@@ -11,7 +11,7 @@ class AddFlight extends Component {
       <Container maxWidth="lg">
         <Paper className="gowhere-addflight-form-container">
           <PageHeader header={'Add Flight'} />
-          <AddFlightForm />
+          <AddFlightForm addFlight={this.props.addFlight} />
         </Paper>
       </Container >
     );
@@ -22,4 +22,4 @@ const mapDispatchToProps = {
   addFlight: FlightAction.addFlight
 };
 
-export default connect(null, mapDispatchToProps)(AddFlight);;
+export default connect(null, mapDispatchToProps)(AddFlight);;;
