@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Grid } from '@material-ui/core';
-import { FlightType } from '../../../constants';
+import { FlightType, DateTimeFormat } from '../../../constants';
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
+import moment from 'moment';
 
 const styles = makeStyles(theme => ({
   root: {
@@ -30,7 +31,11 @@ const AddFlightForm = props => {
     arrival: ''
   });
 
-  const [departureDate, handleDepartureDateChange] = useState(new Date("2018-01-01T00:00:00.000Z"));
+  const initialDepartureTime = moment(new Date()).add(5, 'hours');
+  const initialArrivalTime = moment(initialDepartureTime).add(12, 'hours');
+
+  const [departureDateTime, setDepartureDateTime] = useState(initialDepartureTime);
+  const [arrivalDateTime, setArrivalDateTime] = useState(initialArrivalTime);
   const [flightType, setFlightType] = useState(FlightType.CHEAP);
 
   const onFlightTypeChange = (event) => setFlightType(event.target.value);
@@ -59,14 +64,17 @@ const AddFlightForm = props => {
         <Grid item xs={12} sm={12} md={6}>
           <KeyboardDateTimePicker
             variant="standard"
-            ampm={false}
+            ampm={true}
             label="Departure Time"
             style={{ marginTop: 8, minWidth: '100%' }}
-            value={departureDate}
-            onChange={handleDepartureDateChange}
+            value={departureDateTime}
+            minDate={initialDepartureTime}
+            strictCompareDates={true}
+            onChange={setDepartureDateTime}
             onError={console.log}
             disablePast
-            format="yyyy/MM/dd HH:mm"
+            format={DateTimeFormat.display}
+            minDateMessage={'Departure time should be at least 5 hours later from now'}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
@@ -87,14 +95,17 @@ const AddFlightForm = props => {
         <Grid item xs={12} sm={12} md={6}>
           <KeyboardDateTimePicker
             variant="standard"
-            ampm={false}
+            ampm={true}
             label="Arrival Time"
             style={{ marginTop: 8, minWidth: '100%' }}
-            value={departureDate}
-            onChange={handleDepartureDateChange}
+            minDate={initialArrivalTime}
+            value={arrivalDateTime}
+            onChange={setArrivalDateTime}
+            strictCompareDates={true}
             onError={console.log}
             disablePast
-            format="yyyy/MM/dd HH:mm"
+            format={DateTimeFormat.display}
+            minDateMessage={'Arrival time should be after departure time'}
           />
         </Grid>
         <FormControl component="fieldset" className={flightTypeControl}>
