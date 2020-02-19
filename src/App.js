@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppToolBar, MainContentContainer } from './components/common';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, useLocation, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { FlightListing } from './pages';
@@ -50,6 +50,8 @@ function RouteComponent() {
       </Switch>
 
       {background && <Route path="/flight/add" children={<AddFlightFormModal />} />}
+
+      <Redirect to="/" />
     </div>
   );
 }

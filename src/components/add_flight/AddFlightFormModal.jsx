@@ -22,6 +22,9 @@ const styles = makeStyles(theme => ({
     paddingLeft: theme.spacing(6),
     paddingRight: theme.spacing(6),
     paddingBottom: theme.spacing(6),
+    '&:focus': {
+      outline: 0
+    }
   },
   modalBackdrop: {
     position: "absolute",
