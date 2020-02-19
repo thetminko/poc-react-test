@@ -9,5 +9,5 @@ const DateTimeFormat = {
 };
 
 export { FlightType, DateTimeFormat };
-export { RouteConfig } from './Config';
 export { default as ActionType } from './ActionType';
+export { default as Label } from './Label';

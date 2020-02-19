@@ -3,11 +3,7 @@ import { makeStyles, Typography } from '@material-ui/core';
 
 const styles = makeStyles(theme => ({
   header: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-    textAlign: 'left'
   }
 }));
 
