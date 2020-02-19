@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Grid } from '@material-ui/core';
+import { TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, Typography, Grid, Button, Divider } from '@material-ui/core';
 import { FlightType, DateTimeFormat } from '../../../constants';
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import moment from 'moment';
@@ -20,22 +20,33 @@ const styles = makeStyles(theme => ({
   },
   flightTypeLegend: {
     fontSize: 12
+  },
+  divider: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3)
+  },
+  buttons: {
+    marginRight: theme.spacing(1)
   }
 }));
 
 const AddFlightForm = props => {
-  const { root, flightTypeControl, flightTypeLegend, formNote } = styles();
+  const { root, flightTypeControl, flightTypeLegend, formNote, divider, buttons } = styles();
 
   const [error, setError] = useState({
     destination: '',
     arrival: ''
   });
 
-  const initialDepartureTime = moment(new Date()).add(5, 'hours');
-  const initialArrivalTime = moment(initialDepartureTime).add(12, 'hours');
 
+  const minDepartureTime = moment(new Date()).add(12, 'hours');
+  const initialDepartureTime = moment(minDepartureTime).add(12, 'hours');
   const [departureDateTime, setDepartureDateTime] = useState(initialDepartureTime);
+
+  const minArrivalTime = moment(departureDateTime).add(10, 'minutes');
+  const initialArrivalTime = moment(minArrivalTime).add(10, 'minutes');
   const [arrivalDateTime, setArrivalDateTime] = useState(initialArrivalTime);
+
   const [flightType, setFlightType] = useState(FlightType.CHEAP);
 
   const onFlightTypeChange = (event) => setFlightType(event.target.value);
@@ -68,7 +79,7 @@ const AddFlightForm = props => {
             label="Departure Time"
             style={{ marginTop: 8, minWidth: '100%' }}
             value={departureDateTime}
-            minDate={initialDepartureTime}
+            minDate={minDepartureTime}
             strictCompareDates={true}
             onChange={setDepartureDateTime}
             onError={console.log}
@@ -98,7 +109,7 @@ const AddFlightForm = props => {
             ampm={true}
             label="Arrival Time"
             style={{ marginTop: 8, minWidth: '100%' }}
-            minDate={initialArrivalTime}
+            minDate={minArrivalTime}
             value={arrivalDateTime}
             onChange={setArrivalDateTime}
             strictCompareDates={true}
@@ -116,6 +127,13 @@ const AddFlightForm = props => {
           </RadioGroup>
         </FormControl>
       </Grid>
+      <Divider className={divider} />
+      <Button variant="contained" color="primary" size="medium" className={buttons}>
+        Add Flight
+      </Button>
+      <Button variant="outlined" color="primary" size="medium" className={buttons}>
+        Back to Listing
+      </Button>
     </div>
   );
 };
