@@ -76,6 +76,7 @@ const AddFlightForm = props => {
             placeholder="E.g. Japan"
             style={{ marginTop: 8 }}
             helperText={error.arrival}
+            fullWidth
             margin="normal"
             InputLabelProps={{
               shrink: true,
