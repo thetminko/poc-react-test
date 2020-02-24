@@ -107,6 +107,11 @@ const FlightListingTable = props => {
     setSortOrder({ ...test });
   };
 
+  const onFlightTypeFilterChange = event => {
+    setFilter({ flightType: event.target.value });
+    setCurrentPage(InitialState.currentPage);
+  };
+
   const pagedData = () => {
     if (currentPage === 0) {
       return data.slice(currentPage, (data.length > noOfRowsPerPage ? noOfRowsPerPage : data.length));
@@ -120,7 +125,7 @@ const FlightListingTable = props => {
 
   return (
     <>
-      <FilterHeader filter={filter} setFlightTypeFilter={event => setFilter({ flightType: event.target.value })} />
+      <FilterHeader filter={filter} setFlightTypeFilter={onFlightTypeFilterChange} />
       <TableContainer>
         <Table>
           <TableHeader headers={TableHeaders} sort={sortOrder} onSort={onSortRequest} />
