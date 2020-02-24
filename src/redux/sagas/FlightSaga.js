@@ -1,7 +1,8 @@
 import { takeLeading, put, delay } from 'redux-saga/effects';
-import { ActionType, FlightType } from '../../constants';
+import { ActionType, FlightType, Label } from '../../constants';
 import { FlightAction } from '../action_creators';
 import axios from 'axios';
+import AlertAction from '../action_creators/AlertAction';
 
 const cheap = [{
   "departure": "Ankara", "arrival": "Antalya", "departureDateTime": 1561627856.000000000,
@@ -41,9 +42,8 @@ export function* fetchFlights(action) {
     yield put(FlightAction.onFetchFlightSuccess([...processedCheapFlights, ...processedBusinessFlights]));
   } catch (err) {
     console.log(err);
-    // Will just display the generic error message for now
-    const errorMsg = 'Oops! Something went wrong!';
-    yield put(FlightAction.onFetchFlightError(errorMsg));
+    yield put(FlightAction.onFetchFlightError(Label.GENERIC_ERROR));
+    yield put(AlertAction.showAlert(Label.GENERIC_ERROR, false));
   }
 }
 
@@ -79,6 +79,7 @@ function processBusinessFlightsData(data) {
 export function* addFlight(action) {
   yield delay(1000);
   yield put(FlightAction.onAddFlightSuccess(action.payload.data));
+  yield put(AlertAction.showAlert(Label.ADD_FLIGHT_SUCCESS, true));
 }
 
 export default function* watchFlightSaga() {

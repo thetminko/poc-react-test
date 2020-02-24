@@ -1,17 +1,17 @@
 import { ActionType, AsyncStatus } from "../../constants";
 
-const initialState = {
+const InitialState = {
   data: [],
   error: null,
   fetchFlightStatus: AsyncStatus.IDLE,
   addFlightStatus: AsyncStatus.IDLE
 };
 
-const FlightReducer = (state = initialState, action) => {
+const FlightReducer = (state = InitialState, action) => {
   switch (action.type) {
     case ActionType.FETCH_FLIGHTS:
       return {
-        ...initialState,
+        ...InitialState,
         fetchFlightStatus: AsyncStatus.IN_PROGRESS
       };
     case ActionType.FETCH_FLIGHTS_SUCCESS:
