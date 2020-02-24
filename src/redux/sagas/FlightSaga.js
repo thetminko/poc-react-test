@@ -1,6 +1,7 @@
 import { takeLeading, put, delay } from 'redux-saga/effects';
 import { ActionType, FlightType } from '../../constants';
 import { FlightAction } from '../action_creators';
+import axios from 'axios';
 
 const cheap = [{
   "departure": "Ankara", "arrival": "Antalya", "departureDateTime": 1561627856.000000000,
@@ -33,6 +34,8 @@ const business = [{ "departure": "Ankara", "arrival": "Antalya", "departureTime"
 export function* fetchFlights(action) {
   try {
     // call api
+    // const response = yield axios.all([fetchCheapFlights(), fetchBusinessFlights()]);
+    // console.log(response);
     const processedCheapFlights = processCheapFlightsData(cheap);
     const processedBusinessFlights = processBusinessFlightsData(business);
     yield put(FlightAction.onFetchFlightSuccess([...processedCheapFlights, ...processedBusinessFlights]));
@@ -42,6 +45,14 @@ export function* fetchFlights(action) {
     const errorMsg = 'Oops! Something went wrong!';
     yield put(FlightAction.onFetchFlightError(errorMsg));
   }
+}
+
+function fetchCheapFlights() {
+  return axios.get('...');
+}
+
+function fetchBusinessFlights() {
+  return axios.get('...');
 }
 
 function processCheapFlightsData(data) {
