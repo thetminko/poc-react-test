@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import {
   TextField, makeStyles, Typography, Grid, Button, Divider, Modal, CircularProgress
@@ -173,14 +174,13 @@ const AddFlightForm = props => {
     if (props.addStatus === 'SUCCESS') {
       onReset();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.addStatus]);
 
   return (
     <div className={modalBackdrop}>
       <Modal open className={root}>
         <div className={container}>
-          <PageHeader header={'Add Flight'} />
+          <PageHeader header={Label.ADD_FLIGHT} />
           <Typography variant="body2" className={formNote}>
             Note: All fields are required to fill in
           </Typography>

@@ -3,7 +3,8 @@ const Label = {
   ARRIVAL: 'arrival',
   UNSAVED_CHANGES: 'You unsaved changes will be lost. Are you sure you want to go to listing page?',
   DEPARTURE_REQUIRED: 'Please enter departure city',
-  ARRIVAL_REQUIRED: 'Please enter arrival city'
+  ARRIVAL_REQUIRED: 'Please enter arrival city',
+  ADD_FLIGHT: 'Add Flight'
 };
 
 export default Label;

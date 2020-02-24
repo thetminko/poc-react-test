@@ -1,19 +1,38 @@
 import React from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper, makeStyles, Button } from '@material-ui/core';
 import { FlightListingTable } from '../components/flight_listing';
 import { Link, useLocation } from 'react-router-dom';
+import { PageHeader } from '../components/common';
+import { Label } from '../constants';
+
+
+const styles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(1)
+  },
+  pageHeader: {
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2)
+  }
+}));
 
 const FlightListing = props => {
   const location = useLocation();
+  const { root, pageHeader } = styles();
+
   return (
     <>
-      <Paper>
-        <Link className="link" to={{
-          pathname: '/flight/add',
-          state: { background: location }
-        }}>
-          Home
-          </Link>
+      <Paper className={root}>
+        <PageHeader header={'Browse Flights'} style={pageHeader} rightComponent={
+          <Button variant={'outlined'} color={'primary'}
+            component={Link}
+            to={{
+              pathname: '/flight/add',
+              state: { background: location }
+            }}>
+            {Label.ADD_FLIGHT}
+          </Button>
+        } />
         <FlightListingTable />
       </Paper>
     </>
@@ -21,38 +40,3 @@ const FlightListing = props => {
 };
 
 export default FlightListing;
-
-// class FlightListing extends React.Component {
-
-//   state = {
-//     loading: true
-//   };
-
-//   componentDidMount() {
-//     // Currently, just fetch all flights
-//     this.props.fetchFlights(FlightType.ALL);
-//   }
-
-//   componentDidUpdate(prevProps, prevState) {
-//     if (JSON.stringify(prevProps.flights) !== JSON.stringify(this.props.flights)) {
-//       this.setState({ loading: false });
-//     }
-//   }
-
-//   render() {
-//     return (
-
-//     );
-//   }
-// }
-
-// const mapStateToProps = state => ({
-//   flights: state.flights.data,
-//   flightError: state.flights.error
-// });
-
-// const mapDispatchToProps = {
-//   fetchFlights: FlightAction.fetchFlights
-// };
-
-// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FlightListing));
