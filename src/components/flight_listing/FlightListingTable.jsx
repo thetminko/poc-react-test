@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from 'react';
-import { TableContainer, Table, TableBody, TableRow, TableCell, TablePagination, Button } from "@material-ui/core";
+import { TableContainer, Table, TableBody, TableRow, TableCell, TablePagination } from "@material-ui/core";
 import { connect } from 'react-redux';
 import { FlightAction } from '../../redux/action_creators';
-import { FlightType, SortOrderDirection } from '../../constants';
+import { FlightType, SortOrderDirection, DateTimeFormat } from '../../constants';
 import usePrevious from '../../hooks/usePrevious';
 import TableHeader from './TableHeader';
 import { sortArrayOfObjByKey } from '../../utils';
+import moment from 'moment';
 
 const SortKey = {
   DEPARTURE: 'departure',
@@ -135,10 +136,10 @@ const FlightListingTable = props => {
                     {row.flightType}
                   </TableCell>
                   <TableCell>
-                    {row.departureDateTime}
+                    {moment.unix(row.departureDateTime).format(DateTimeFormat.display)}
                   </TableCell>
                   <TableCell>
-                    {row.arrivalDateTime}
+                    {moment.unix(row.arrivalDateTime).format(DateTimeFormat.display)}
                   </TableCell>
                 </TableRow>
               ))

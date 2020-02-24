@@ -129,17 +129,16 @@ const AddFlightForm = props => {
 
   const onAddFlight = () => {
     setError({ ...InitialState.error });
-    const isValid = validateBeforeAdd();
+    const { departure, arrival, flightType } = data;
+    const isValid = validateBeforeAdd(departure, arrival, flightType);
     if (isValid) {
-      const { departure, arrival } = data;
       const departureDateTime = data.departureDateTime.unix();
       const arrivalDateTime = data.arrivalDateTime.unix();
-      props.addFlight({ departure, arrival, departureDateTime, arrivalDateTime });
+      props.addFlight({ departure, arrival, flightType, departureDateTime, arrivalDateTime });
     }
   };
 
-  const validateBeforeAdd = () => {
-    const { departure, arrival, flightType } = data;
+  const validateBeforeAdd = (departure, arrival, flightType) => {
     if (departure && arrival && !error.departureDateTime && !error.arrivalDateTime && flightType) {
       return true;
     }
