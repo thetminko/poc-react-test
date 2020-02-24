@@ -1,7 +1,12 @@
 const FlightType = {
-  CHEAP: 'CHEAP',
-  BUSINESS: 'BUSINESS',
-  ALL: 'ALL'
+  CHEAP: 'Budget',
+  BUSINESS: 'Business',
+  ALL: 'All'
+};
+
+const SortOrderDirection = {
+  ASC: 'asc',
+  DESC: 'desc'
 };
 
 const DateTimeFormat = {
@@ -15,6 +20,6 @@ const AsyncStatus = {
   ERROR: 'ERROR'
 };
 
-export { FlightType, DateTimeFormat, AsyncStatus };
+export { FlightType, DateTimeFormat, AsyncStatus, SortOrderDirection };
 export { default as ActionType } from './ActionType';
 export { default as Label } from './Label';

@@ -82,7 +82,7 @@ const AddFlightForm = props => {
   const minArrivalTime = calculateMinimumArrivalTime(initialDepartureTime);
   const initialArrivalTime = calculateMinimumArrivalTime(minArrivalTime);
 
-  const initialState = {
+  const InitialState = {
     data: {
       isEdited: false,
       departure: '',
@@ -99,8 +99,8 @@ const AddFlightForm = props => {
     }
   };
 
-  const [data, setData] = useState(initialState.data);
-  const [error, setError] = useState(initialState.error);
+  const [data, setData] = useState(InitialState.data);
+  const [error, setError] = useState(InitialState.error);
 
   const setDataChanges = (data) => setData({ ...data, isEdited: true });
 
@@ -128,7 +128,7 @@ const AddFlightForm = props => {
   };
 
   const onAddFlight = () => {
-    setError({ ...initialState.error });
+    setError({ ...InitialState.error });
     const isValid = validateBeforeAdd();
     if (isValid) {
       const { departure, arrival } = data;
@@ -174,8 +174,8 @@ const AddFlightForm = props => {
   };
 
   const onReset = () => {
-    setData({ ...initialState.data });
-    setError({ ...initialState.error });
+    setData({ ...InitialState.data });
+    setError({ ...InitialState.error });
   };
 
   useEffect(() => {
