@@ -10,7 +10,7 @@ const styles = makeStyles(theme => ({
 const PageHeader = props => {
   const { header } = styles();
   return (
-    <Typography variant="h6" className={header}>
+    <Typography variant="h6" className={[header, props.style]}>
       {props.header}
     </Typography>
   );

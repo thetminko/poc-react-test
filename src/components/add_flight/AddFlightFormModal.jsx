@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  TextField, makeStyles, FormLabel, FormControl, RadioGroup, FormControlLabel,
-  Radio, Typography, Grid, Button, Divider, Modal, CircularProgress
+  TextField, makeStyles, Typography, Grid, Button, Divider, Modal, CircularProgress
 } from '@material-ui/core';
 import { FlightType, DateTimeFormat, Label, AsyncStatus } from '../../constants';
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
@@ -10,7 +9,7 @@ import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { FlightAction } from '../../redux/action_creators';
-import { PageHeader } from '../common';
+import { PageHeader, FlightTypeRadioButtons } from '../common';
 
 const styles = makeStyles(theme => ({
   root: {
@@ -42,12 +41,6 @@ const styles = makeStyles(theme => ({
     marginBottom: theme.spacing(0),
     color: theme.palette.font.faded,
   },
-  flightTypeControl: {
-    margin: theme.spacing(1),
-  },
-  flightTypeLegend: {
-    fontSize: 12
-  },
   divider: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3)
@@ -69,8 +62,7 @@ const styles = makeStyles(theme => ({
 
 const AddFlightForm = props => {
   const { DEPARTURE, ARRIVAL, DEPARTURE_REQUIRED, ARRIVAL_REQUIRED, UNSAVED_CHANGES } = Label;
-  const { root, container, flightTypeControl, flightTypeLegend, formNote, divider,
-    buttons, pullToRight, modalBackdrop, loadingButton } = styles();
+  const { root, container, formNote, divider, buttons, pullToRight, modalBackdrop, loadingButton } = styles();
 
   const history = useHistory();
 
@@ -260,13 +252,7 @@ const AddFlightForm = props => {
                 minDateMessage={'Arrival time should be after departure time'}
               />
             </Grid>
-            <FormControl component="fieldset" className={flightTypeControl}>
-              <FormLabel component="legend" className={flightTypeLegend}>Flight Type</FormLabel>
-              <RadioGroup aria-label="flighType" name="flightType" value={data.flightType} row onChange={onFlightTypeChange}>
-                <FormControlLabel value={FlightType.CHEAP} control={<Radio color="primary" />} label="Budget" />
-                <FormControlLabel value={FlightType.BUSINESS} control={<Radio color="primary" />} label="Business" />
-              </RadioGroup>
-            </FormControl>
+            <FlightTypeRadioButtons onFlightTypeChange={onFlightTypeChange} value={data.flightType} />
           </Grid>
           <Divider className={divider} />
           <Button variant="contained" color="primary" size="medium" className={buttons} onClick={onAddFlight} disabled={props.loading}>

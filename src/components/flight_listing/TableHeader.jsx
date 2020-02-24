@@ -4,33 +4,35 @@ import { TableHead, TableRow, TableCell, TableSortLabel } from '@material-ui/cor
 const TableHeader = props => {
   const { headers, sort, onSort } = props;
   return (
-    <TableHead>
-      <TableRow>
-        {
-          headers.map(header => (
-            <TableCell
-              key={header.label}
-            // sortDirection={header.sortable ? header.so}
-            >
-              {
-                header.sortable ?
-                  (
-                    <TableSortLabel
-                      active={header.sortKey === sort.by}
-                      direction={sort.direction}
-                      onClick={() => onSort(header.sortKey)}
-                    >
-                      {header.label}
-                    </TableSortLabel>
-                  ) :
-                  header.label
-              }
+    <>
+      <TableHead>
+        <TableRow>
+          {
+            headers.map(header => (
+              <TableCell
+                key={header.label}
+              // sortDirection={header.sortable ? header.so}
+              >
+                {
+                  header.sortable ?
+                    (
+                      <TableSortLabel
+                        active={header.sortKey === sort.by}
+                        direction={sort.direction}
+                        onClick={() => onSort(header.sortKey)}
+                      >
+                        {header.label}
+                      </TableSortLabel>
+                    ) :
+                    header.label
+                }
 
-            </TableCell>
-          ))
-        }
-      </TableRow>
-    </TableHead>
+              </TableCell>
+            ))
+          }
+        </TableRow>
+      </TableHead>
+    </>
   );
 };
 

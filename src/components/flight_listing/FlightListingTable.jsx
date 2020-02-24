@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from 'react';
-import { TableContainer, Table, TableBody, TableRow, TableCell, TablePagination } from "@material-ui/core";
+import { TableContainer, Table, TableBody, TableRow, TableCell, TablePagination, makeStyles } from "@material-ui/core";
 import { connect } from 'react-redux';
 import { FlightAction } from '../../redux/action_creators';
 import { FlightType, SortOrderDirection, DateTimeFormat } from '../../constants';
 import usePrevious from '../../hooks/usePrevious';
 import TableHeader from './TableHeader';
+import FilterHeader from './FilterHeader';
 import { sortArrayOfObjByKey } from '../../utils';
 import moment from 'moment';
+import { PageHeader } from '../common';
 
 const SortKey = {
   DEPARTURE: 'departure',
@@ -37,11 +39,19 @@ const TableHeaders = [
   { label: 'Arrival Time', sortable: false }
 ];
 
+const styles = makeStyles((theme) => ({
+  pageHeader: {
+    paddingLeft: theme.spacing(2)
+  }
+}));
+
 const FlightListingTable = props => {
   const [data, setData] = useState([...InitialState.data]);
   const [currentPage, setCurrentPage] = useState(InitialState.currentPage);
   const [filter, setFilter] = useState({ ...InitialState.filter });
   const [sortOrder, setSortOrder] = useState({ ...InitialState.order });
+
+  const { pageHeader } = styles();
 
   useEffect(() => {
     props.fetchFlights();
@@ -119,6 +129,8 @@ const FlightListingTable = props => {
 
   return (
     <>
+      <PageHeader header={'Browse Flights'} style={pageHeader} rightComponent={{}} />
+      <FilterHeader filter={filter} setFlightTypeFilter={event => setFilter({ flightType: event.target.value })} />
       <TableContainer>
         <Table>
           <TableHeader headers={TableHeaders} sort={sortOrder} onSort={onSortRequest} />
