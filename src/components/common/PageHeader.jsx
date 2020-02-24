@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 
 const styles = makeStyles(theme => ({
   root: {
@@ -19,7 +20,7 @@ const PageHeader = props => {
   const { root, header, rightComponentStyle } = styles();
   return (
     <div className={root}>
-      <Typography variant="h6" className={[header, props.style]}>
+      <Typography variant="h6" className={clsx(header, props.style)}>
         {props.header}
       </Typography>
       {

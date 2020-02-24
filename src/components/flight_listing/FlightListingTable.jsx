@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from 'react';
-import { TableContainer, Table, TableBody, TableRow, TableCell, TablePagination } from "@material-ui/core";
+import { TableContainer, Table, TableBody, TableRow, TableCell, TablePagination, CircularProgress, makeStyles } from "@material-ui/core";
 import { connect } from 'react-redux';
 import { FlightAction } from '../../redux/action_creators';
 import { FlightType, SortOrderDirection, DateTimeFormat } from '../../constants';
@@ -19,6 +19,7 @@ const SortKey = {
 const noOfRowsPerPage = 5;
 
 const InitialState = {
+  loading: true,
   data: [],
   currentPage: 0,
   order: {
@@ -38,7 +39,17 @@ const TableHeaders = [
   { label: 'Arrival Time', sortable: false }
 ];
 
+const styles = makeStyles((theme) => ({
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: theme.spacing(3)
+  }
+}));
+
 const FlightListingTable = props => {
+  const classes = styles();
+  const [loading, setLoading] = useState(InitialState.loading);
   const [data, setData] = useState([...InitialState.data]);
   const [currentPage, setCurrentPage] = useState(InitialState.currentPage);
   const [filter, setFilter] = useState({ ...InitialState.filter });
@@ -56,6 +67,7 @@ const FlightListingTable = props => {
     const filteredData = filterData();
     const sortedData = sortData(filteredData);
     setData([...sortedData]);
+    setLoading(false);
   };
 
   const previousData = usePrevious(data);
@@ -126,42 +138,50 @@ const FlightListingTable = props => {
   return (
     <>
       <FilterHeader filter={filter} setFlightTypeFilter={onFlightTypeFilterChange} />
-      <TableContainer>
-        <Table>
-          <TableHeader headers={TableHeaders} sort={sortOrder} onSort={onSortRequest} />
-          <TableBody>
-            {
-              pagedData().map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell>
-                    {row.departure}
-                  </TableCell>
-                  <TableCell>
-                    {row.arrival}
-                  </TableCell>
-                  <TableCell>
-                    {row.flightType}
-                  </TableCell>
-                  <TableCell>
-                    {moment.unix(row.departureDateTime).format(DateTimeFormat.display)}
-                  </TableCell>
-                  <TableCell>
-                    {moment.unix(row.arrivalDateTime).format(DateTimeFormat.display)}
-                  </TableCell>
-                </TableRow>
-              ))
-            }
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[noOfRowsPerPage]}
-        component="div"
-        count={data.length}
-        rowsPerPage={noOfRowsPerPage}
-        page={currentPage}
-        onChangePage={handleOnPageChange}
-      />
+      {
+        loading ?
+          (<div className={classes.loading}><CircularProgress /></div>) :
+          (
+            <>
+              <TableContainer>
+                <Table>
+                  <TableHeader headers={TableHeaders} sort={sortOrder} onSort={onSortRequest} />
+                  <TableBody>
+                    {
+                      pagedData().map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>
+                            {row.departure}
+                          </TableCell>
+                          <TableCell>
+                            {row.arrival}
+                          </TableCell>
+                          <TableCell>
+                            {row.flightType}
+                          </TableCell>
+                          <TableCell>
+                            {moment.unix(row.departureDateTime).format(DateTimeFormat.display)}
+                          </TableCell>
+                          <TableCell>
+                            {moment.unix(row.arrivalDateTime).format(DateTimeFormat.display)}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    }
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[noOfRowsPerPage]}
+                component="div"
+                count={data.length}
+                rowsPerPage={noOfRowsPerPage}
+                page={currentPage}
+                onChangePage={handleOnPageChange}
+              />
+            </>
+          )
+      }
     </>
   );
 };
