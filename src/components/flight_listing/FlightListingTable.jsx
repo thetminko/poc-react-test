@@ -105,6 +105,17 @@ const FlightListingTable = props => {
     setSortOrder({ ...test });
   };
 
+  const pagedData = () => {
+    if (currentPage === 0) {
+      return data.slice(currentPage, (data.length > noOfRowsPerPage ? noOfRowsPerPage : data.length));
+    }
+
+    const start = currentPage * noOfRowsPerPage;
+    const possibleEnd = start + noOfRowsPerPage;
+    const end = data.length > possibleEnd ? possibleEnd : data.length;
+    return data.slice(start, end);
+  };
+
   return (
     <>
       <TableContainer>
@@ -112,7 +123,7 @@ const FlightListingTable = props => {
           <TableHeader headers={TableHeaders} sort={sortOrder} onSort={onSortRequest} />
           <TableBody>
             {
-              data.map((row, index) => (
+              pagedData().map((row, index) => (
                 <TableRow key={index}>
                   <TableCell>
                     {row.departure}
