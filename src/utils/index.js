@@ -1,10 +1,10 @@
 import { SortOrderDirection } from "../constants";
 
-const sortArrayOfObjByKey = (array, key, sortOrder) => {
+const sortArrayOfObjByKey = (array, key, sortOrder, caseInsensitive) => {
   const comparator = sortOrder === SortOrderDirection.ASC ? getAsc : getDesc;
   return array.sort((a, b) => {
-    const upA = a[key].toUpperCase();
-    const upB = b[key].toUpperCase();
+    const upA = caseInsensitive ? a[key].toUpperCase() : a[key];
+    const upB = caseInsensitive ? b[key].toUpperCase() : b[key];
     return comparator(upA, upB);
   });
 };

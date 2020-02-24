@@ -13,7 +13,9 @@ import moment from 'moment';
 const SortKey = {
   DEPARTURE: 'departure',
   ARRIVAL: 'arrival',
-  FLIGHT_TYPE: 'flightType'
+  FLIGHT_TYPE: 'flightType',
+  DEPARTURE_TIME: 'departureDateTime',
+  ARRIVAL_TIME: 'arrivalDateTime'
 };
 
 const noOfRowsPerPage = 5;
@@ -32,11 +34,11 @@ const InitialState = {
 };
 
 const TableHeaders = [
-  { label: 'Departure', sortable: true, sortKey: SortKey.DEPARTURE },
-  { label: 'Arrival', sortable: true, sortKey: SortKey.ARRIVAL },
-  { label: 'Type', sortable: true, sortKey: SortKey.FLIGHT_TYPE },
-  { label: 'Departure Time', sortable: false },
-  { label: 'Arrival Time', sortable: false }
+  { label: 'Departure', sortable: true, sortKey: SortKey.DEPARTURE, caseInsensitive: true },
+  { label: 'Arrival', sortable: true, sortKey: SortKey.ARRIVAL, caseInsensitive: true },
+  { label: 'Type', sortable: true, sortKey: SortKey.FLIGHT_TYPE, caseInsensitive: true },
+  { label: 'Departure Time', sortable: true, sortKey: SortKey.DEPARTURE_TIME, caseInsensitive: false },
+  { label: 'Arrival Time', sortable: true, sortKey: SortKey.ARRIVAL_TIME, caseInsensitive: false }
 ];
 
 const styles = makeStyles((theme) => ({
@@ -105,7 +107,7 @@ const FlightListingTable = props => {
     } else if (props.flights.length) {
       data = props.flights;
     }
-    const test = sortArrayOfObjByKey(data, sortOrder.by, sortOrder.direction);
+    const test = sortArrayOfObjByKey(data, sortOrder.by, sortOrder.direction, sortOrder.caseInsensitive);
     return test;
   };
 
